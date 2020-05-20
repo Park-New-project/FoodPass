@@ -16,7 +16,10 @@ export class CardviewComponent implements OnInit {
   @Input() notice:string;
   @Input() distance:number;
   @Input() truckImage:string;
-  //@Input() foodtruck:FoodtruckData;
+
+  @Input() truckIndex : number;
+
+
   constructor() { }
 
   ngOnInit() {

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { PickMenuOptionComponent } from './pick-menu-option.component';
+import { PickMenuOptionComponent } from './option-list.component';
 
 describe('PickMenuOptionComponent', () => {
   let component: PickMenuOptionComponent;
