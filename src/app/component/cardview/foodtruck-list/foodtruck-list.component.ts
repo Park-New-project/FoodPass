@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FoodtruckData } from 'src/app/data/foodtruck';
 
 @Component({
-  selector: 'cardview-foodtruck-list',
-  templateUrl: './foodtruck-list.component.html',
-  styleUrls: ['./foodtruck-list.component.scss'],
+  selector: 'app-cardview',
+  templateUrl: './cardview.component.html',
+  styleUrls: ['./cardview.component.scss'],
 })
 export class CardviewComponent implements OnInit {
   
