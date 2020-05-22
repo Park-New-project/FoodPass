@@ -16,7 +16,7 @@ import { FoodtruckListPage } from './foodtruck-list/foodtruck-list.page';
 import { FoodtruckInfoPage } from './foodtruck-info/foodtruck-info.page';
 import { MenuListComponent } from 'src/app/component/cardview/menu-list/menu-list.component';
  
-import { CardviewComponent } from 'src/app/component/cardview/foodtruck-list/foodtruck-list.component';
+import { CardviewComponent } from 'src/app/component/cardview/foodtruck-list/cardview.component';
 import { MapPage } from 'src/app/modal-pages/map/map.page';
 import { BasketPageModule } from 'src/app/modal-pages/basket/basket.module';
 import { FoodtruckListPageModule } from './foodtruck-list/foodtruck-list.module';
