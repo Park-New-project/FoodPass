@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CardviewComponent } from './cardview.component';
+import { CardviewComponent } from './foodtruck-list.component';
 
 describe('CardviewComponent', () => {
   let component: CardviewComponent;
