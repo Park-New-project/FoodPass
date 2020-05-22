@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { OrderControllerService } from '../order-controller/order-controller.service';
-import { BasketOrder } from 'src/app/modal-pages/basket/data/basket-order';
+import { BasketOrder } from 'src/app/data/basket-data/basket-order';
 
 @Component({
   selector: 'order-header-basket',
@@ -32,7 +32,6 @@ export class HeaderBasketComponent implements OnInit {
     return this.order.indeterminate;
   }
 
-  
   get foodtruckInfo(){
     return this.order.foodtruckinfo;
   }

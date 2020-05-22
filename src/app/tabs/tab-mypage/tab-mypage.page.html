@@ -3,6 +3,11 @@
     <ion-title>tab-mypage</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-router-outlet>
-</ion-router-outlet>
+
+<ion-content>
+  <ion-item>
+    <ion-toggle [(ngModel)]="admin"></ion-toggle>
+    <ion-label>운영자 모드</ion-label>
+  </ion-item>
+</ion-content>
 

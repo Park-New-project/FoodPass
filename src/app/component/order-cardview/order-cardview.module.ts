@@ -7,12 +7,14 @@ import { HeaderBasketComponent } from './header-basket/header-basket.component';
 import { HeaderWaitingComponent } from './header-waiting/header-waiting.component';
 import { OrderControllerService } from './order-controller/order-controller.service';
 import { OrderedMenuComponent } from './ordered-menu/ordered-menu.component';
+import { OwnerEditComponentModule } from '../owner-edit/owner-edit.module';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
+        OwnerEditComponentModule,
     ],
     exports: [
         OrderCardviewComponent
@@ -21,7 +23,7 @@ import { OrderedMenuComponent } from './ordered-menu/ordered-menu.component';
         OrderCardviewComponent,
         HeaderBasketComponent,
         HeaderWaitingComponent,
-        OrderedMenuComponent
+        OrderedMenuComponent,
     ],
     providers: [
         OrderControllerService

@@ -1,7 +1,8 @@
-import { CheckValue, CheckboxValue } from 'src/app/modal-pages/basket/data/checkbox-value';
+
 import { OrderedMenuData } from 'src/app/data/ordered-menu';
 import { MenuData } from 'src/app/data/menu';
 import { OptionData } from 'src/app/data/option';
+import { CheckValue, CheckboxValue } from './checkbox-value';
 
 export class BasketOrderedMenu extends CheckValue implements OrderedMenuData {
     menuinfo: MenuData;
@@ -17,7 +18,7 @@ export class BasketOrderedMenu extends CheckValue implements OrderedMenuData {
         }
     }
 
-    get orderedMenuData(){
+    extractData(){
         let orderedMenuData : OrderedMenuData = {
             menuinfo : this.menuinfo,
             optioninfo : this.optioninfo,

@@ -1,5 +1,10 @@
-<div>
-  <ion-card-title>
-    {{foodtruckInfo.name}}
-  </ion-card-title>
-</div>
+
+<ion-card-title class="flex">
+  <ion-img class="ft-img" src="/assets/icon/foodtruck.png"></ion-img>
+  <div class="ft-info">
+  <ion-label class="ion-float-right">{{foodtruckInfo.name}}</ion-label>
+  <br>
+  <ion-note class="ion-float-right">{{price}}원</ion-note>
+  </div>
+  
+</ion-card-title>

@@ -1,11 +1,11 @@
 
   <ion-card>
-    <ion-card-header *ngIf="isBasket()">
-      <order-header-basket orderIndex="{{orderIndex}}"></order-header-basket>
-    </ion-card-header>
+    <ion-card-header >
+      <order-header-basket *ngIf="isBasket()"
+       orderIndex="{{orderIndex}}"></order-header-basket>
 
-    <ion-card-header *ngIf="isWaiting()">
-      <order-header-waiting orderIndex="{{orderIndex}}"></order-header-waiting>
+      <order-header-waiting *ngIf="isWaiting()"
+       orderIndex="{{orderIndex}}"></order-header-waiting>
     </ion-card-header>
 
     <ion-card-content>
@@ -22,5 +22,21 @@
 
         </ion-item-sliding>
       </ion-list>
+
+      <div class="card-footer">
+        <!-- <span> -->
+          <ion-badge color="secondary" class="badges">
+            <ion-icon name="people"></ion-icon>
+            5명
+          </ion-badge>
+          <ion-badge color="warning" class="badges">
+            <ion-icon name="time"></ion-icon>
+            10분
+          </ion-badge>
+        <!-- </span> -->
+        <ion-button *ngIf="isWaiting()" (click)="orderReceived()">수령 확인</ion-button>
+      </div>
+      
+
     </ion-card-content>
   </ion-card>

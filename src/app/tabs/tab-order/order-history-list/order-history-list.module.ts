@@ -18,6 +18,8 @@ import { OrderHistoryListPage } from './order-history-list.page';
   exports:[
     OrderHistoryListPage
   ],
-  declarations: [OrderHistoryListPage]
+  declarations: [OrderHistoryListPage],
+  providers : [
+  ]
 })
 export class OrderHistoryListPageModule {}

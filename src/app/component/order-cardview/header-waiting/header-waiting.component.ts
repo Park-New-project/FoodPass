@@ -26,4 +26,8 @@ export class HeaderWaitingComponent implements OnInit {
   get orderedMenuList(){
     return this.order.orderedMenu;
   }
+
+  get price(){
+    return this.orderCtrl.orderPrice(this.orderIndex);
+  }
 }

@@ -1,0 +1,17 @@
+order-cardview 쓰는법
+
+1. 각자 자신이 쓰는 서비스에 항목들을 담는다.
+    - basketCtrl : 장바구니 화면에서 사용
+    - waitingCtrl : 대기 목록 화면에서 사용
+    - 이 서비스는 
+    component/order-cardview/order-controller/order-list.interface.ts
+    를 따라야 함
+    - 각자 리스트 이름을 다르게 하더라도 get items() 로 받아올 수만 있으면 인정됨
+
+2. OrderController 이용하여 자신의 아이템을 가져온다.
+    - order-cardview에 input으로 orderType을 받으면
+    - ngInit에서 타입에 따라서 orderCtrl으로 각자의 컨트롤러를 래핑
+    - 다른 order-cardview의 하위 컴포넌트들은 이 래핑된 orderCtrl을 이용해서 item을 가져옴
+    - 모든 컴포넌트는 index값만 가지고 있음
+    - orderCtrl.items[index값] 으로 아이템을 가져와서 표현
+    - 여기서 수정된 결과는 모든 곳에 반영됨

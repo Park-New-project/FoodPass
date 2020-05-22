@@ -1,10 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { TabHomeControllerService } from 'src/app/services/tab-home-controller/tab-home-controller.service';
-import { BasketControllerService } from 'src/app/services/basket-controller/basket-controller.service';
-import { WaitingOrderControllerService } from 'src/app/services/waiting-order-controller/waiting-order-controller.service';
-import { Router } from '@angular/router';
 import { OrderType } from 'src/app/component/order-cardview/order-type.enum';
+import { orderSlide } from 'src/app/services/app-data/page-data-storage/tab-order-data/tab-order-slide.enum';
+import { PageControllerService } from 'src/app/services/app-data/page-controller/page-controller.service';
+import { PageDataStorageService } from 'src/app/services/app-data/page-data-storage/page-data-storage.service';
+import { TabHomeBasketCtrl } from 'src/app/services/app-data/page-data-storage/tab-home-data/basket.ctrl';
+import { TabOrderWaitingListCtrl } from 'src/app/services/app-data/page-data-storage/tab-order-data/waitingList.ctrl';
 
 
 @Component({
@@ -16,14 +17,18 @@ export class BasketPage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private basketCtrl: BasketControllerService,
-    private waitingOrderCtrl: WaitingOrderControllerService,
-    private router: Router
+    private PageCtrl : PageControllerService,
+    private pageData : PageDataStorageService,
   ) { }
 
 
   ngOnInit() {
+    console.log("basketPage");
     this.basketCtrl.makeTestdata();
+  }
+
+  get basketCtrl() : TabHomeBasketCtrl {
+    return this.pageData.tabHome.basketCtrl;
   }
 
   dismiss(){
@@ -72,15 +77,20 @@ export class BasketPage implements OnInit {
     this.orderSuccess();
   }
 
+  get waitingOrderCtrl() : TabOrderWaitingListCtrl {
+    return this.pageData.tabOrder.waitingCtrl;
+  }
+
   orderSuccess(){
     let checkedOrderList = this.basketCtrl.extractCheckedOrder();
     checkedOrderList.forEach((val, index, arr)=>{
-      this.waitingOrderCtrl.addItem(val.orderData);
+      this.waitingOrderCtrl.addItem(val.extractData());
     });
 
     console.log(this.waitingOrderCtrl.orderList.length);
     this.dismiss();
-    this.router.navigateByUrl("/tabs/order");
+    // this.router.navigateByUrl("/tabs/order");
+    this.PageCtrl.routingOrder(orderSlide.waitingOrder);
   }
 
 }

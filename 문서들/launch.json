@@ -29,6 +29,6 @@
             "sourceMaps": true,
             "webRoot": "${workspaceRoot}/www",
             "url": "http://localhost:8100/tabs/home"
-        },
+        }
     ]
 }

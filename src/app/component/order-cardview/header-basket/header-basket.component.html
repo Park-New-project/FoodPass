@@ -1,8 +1,16 @@
 <div (click)="checkValueToggle()">
-  <ion-card-title>
+  <ion-card-title class="title">
     <!-- [(ngModel)]="checkValue" -->
     <ion-checkbox [checked]="checkValue" [indeterminate]="indeterminated"></ion-checkbox>
-    {{foodtruckInfo.name}}
+    
+    <component-owner-edit [(valueModel)]="foodtruckInfo.name">
+    </component-owner-edit>
+
+    <ion-label><h3>{{price}}원</h3></ion-label>
   </ion-card-title>
-  <ion-label class="endfloat"><h3>{{price}}원</h3></ion-label>
+
+  <ion-card-subtitle>
+    <!-- <ion-label class="endfloat"><h3>{{price}}원</h3></ion-label> -->
+
+  </ion-card-subtitle>
 </div>

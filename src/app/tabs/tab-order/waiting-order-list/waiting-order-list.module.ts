@@ -7,8 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { WaitingOrderListPageRoutingModule } from './waiting-order-list-routing.module';
 
 import { WaitingOrderListPage } from './waiting-order-list.page';
-import { OrderCardviewComponent22 } from './order-cardview/order-cardview.component';
-import { SharedComponentModule } from 'src/app/component/shared-component.module';
 import { OrderCardviewComponentModule } from 'src/app/component/order-cardview/order-cardview.module';
 
 @NgModule({

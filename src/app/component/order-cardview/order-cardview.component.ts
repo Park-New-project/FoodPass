@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, Optional } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { OrderType } from './order-type.enum';
-import { BasketControllerService } from 'src/app/services/basket-controller/basket-controller.service';
-import { WaitingOrderControllerService } from 'src/app/services/waiting-order-controller/waiting-order-controller.service';
 import { OrderControllerService } from './order-controller/order-controller.service';
+import { TabHomeBasketCtrl } from 'src/app/services/app-data/page-data-storage/tab-home-data/basket.ctrl';
+import { PageDataStorageService } from 'src/app/services/app-data/page-data-storage/page-data-storage.service';
+import { TabOrderWaitingListCtrl } from 'src/app/services/app-data/page-data-storage/tab-order-data/waitingList.ctrl';
 
 @Component({
   selector: 'component-order-cardview',
@@ -14,26 +15,23 @@ export class OrderCardviewComponent implements OnInit {
   @Input() orderIndex : number;
 
   constructor(
-    @Optional() private basketCtrl : BasketControllerService,
-    @Optional() private waitingCtrl : WaitingOrderControllerService,
+    // @Optional() private basketCtrl : BasketControllerService,
+    // @Optional() private waitingCtrl : WaitingOrderControllerService,
     private orderCtrl : OrderControllerService,
+    // private historyCtrl : OrderHistoryService,
+    private pageData : PageDataStorageService,
   ) { }
 
-  ngOnInit() {
-    // console.log("orderType : " + this.orderType);
-    // console.log(OrderType.basket);
-    // switch (this.orderType){
-    //   case OrderType.basket:
-    //     this.orderCtrl.Controller = this.basketCtrl;
-    //     break;
+  get basketCtrl() : TabHomeBasketCtrl {
+    return this.pageData.tabHome.basketCtrl;
+  }
 
-    //   case OrderType.waiting:
-    //     this.orderCtrl.Controller = this.waitingCtrl;
-    //     break;
-      
-    //   default:
-    //     throw Error("invalid orderType");
-    // }
+  get waitingCtrl() : TabOrderWaitingListCtrl {
+    return this.pageData.tabOrder.waitingCtrl;
+  }
+
+  ngOnInit() {
+    this.orderCtrl.Type = this.orderType;
     if(this.orderType == OrderType.basket){
       this.orderCtrl.Controller = this.basketCtrl;
     }
@@ -62,8 +60,14 @@ export class OrderCardviewComponent implements OnInit {
   }
 
 
+  orderReceived(){
+    //받앗어요
+    let order = this.order;
+    this.orderCtrl.removeOrder(this.orderIndex);
+    // this.historyCtrl.save(order);
+  }
 
   deleteMenu(index : number){
-    this.orderCtrl.deleteMenu(this.orderIndex, index);
+    this.orderCtrl.removeMenu(this.orderIndex, index);
   }
 }

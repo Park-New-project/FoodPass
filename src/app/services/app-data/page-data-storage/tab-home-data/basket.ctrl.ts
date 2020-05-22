@@ -1,15 +1,12 @@
-import { Injectable } from '@angular/core';
 import { FoodtruckData } from 'src/app/data/foodtruck';
 import { MenuData } from 'src/app/data/menu';
 import { OptionData } from 'src/app/data/option';
-import { MenuInfoPageModule } from 'src/app/tabs/tab-home/menu-info/menu-info.module';
-import { CheckboxValue, CheckValue } from 'src/app/modal-pages/basket/data/checkbox-value';
-import { BasketOrder } from 'src/app/modal-pages/basket/data/basket-order';
-import { BasketOrderedMenu } from 'src/app/modal-pages/basket/data/basket-ordered-menu';
 import { OrderList } from 'src/app/component/order-cardview/order-controller/order-list.interface';
+import { CheckboxValue } from 'src/app/data/basket-data/checkbox-value';
+import { BasketOrder } from 'src/app/data/basket-data/basket-order';
+import { BasketOrderedMenu } from 'src/app/data/basket-data/basket-ordered-menu';
 
-@Injectable()
-export class BasketControllerService extends CheckboxValue implements OrderList{
+export class TabHomeBasketCtrl extends CheckboxValue implements OrderList{
   basket : BasketOrder[] = [];
 
   constructor() {
@@ -47,31 +44,6 @@ export class BasketControllerService extends CheckboxValue implements OrderList{
     }
   }
 
-  // push(foodtruck : FoodtruckData, menu: MenuData, option: OptionData, amount: number = 1){
-
-  //   const existIndex : number = this.basket.findIndex((value, index, obj) =>{
-  //     return value.foodtruckinfo.id == foodtruck.id;
-  //   })
-
-  //   let order : OrderData;
-  //   if(existIndex == -1){
-  //     //푸드트럭 첫 주문
-  //     order = new OrderData(this);
-  //     this.basket.push(order);
-  //   }
-  //   else{
-  //     //이미 같은 푸드트럭의 주문이 있음
-  //     order = this.basket[existIndex];
-  //   }
-
-  //   let newOrderedMenu : OrderedMenuData = new OrderedMenuData(order);
-  //   newOrderedMenu.menuinfo = menu;
-  //   newOrderedMenu.optioninfo = option;
-  //   newOrderedMenu.amount = amount;
-
-  //   order.orderedMenu.push(newOrderedMenu);
-  // }
-
   push(foodtruck : FoodtruckData, menu: MenuData, option: OptionData, amount: number = 1){
 
     const existIndex : number = this.basket.findIndex((value, index, obj) =>{
@@ -104,6 +76,8 @@ export class BasketControllerService extends CheckboxValue implements OrderList{
 
       existOrder.orderedMenu.push(newOrderedMenu);
     }
+
+    console.log("menu pushed into basket");
 
   }
 
@@ -152,4 +126,3 @@ export class BasketControllerService extends CheckboxValue implements OrderList{
   }
 
 }
-

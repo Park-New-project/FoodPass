@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TabHomeControllerService } from 'src/app/services/tab-home-controller/tab-home-controller.service';
 import { FoodtruckData } from 'src/app/data/foodtruck';
 import { ServerConnecterService } from 'src/app/services/server-connecter/server-connecter.service';
 import { TruckType } from 'src/app/component/cardview/truck-type.enums';
+import { PageControllerService } from 'src/app/services/app-data/page-controller/page-controller.service';
+import { PageDataStorageService } from 'src/app/services/app-data/page-data-storage/page-data-storage.service';
 
 @Component({
   selector: 'home-foodtruck-list',
@@ -10,20 +11,26 @@ import { TruckType } from 'src/app/component/cardview/truck-type.enums';
   styleUrls: ['./foodtruck-list.page.scss'],
 })
 export class FoodtruckListPage implements OnInit {
-  foodtruckList: FoodtruckData[];
  
 
   constructor(
-    private pageController : TabHomeControllerService,
-    private serverConnecter : ServerConnecterService
+    private pageCtrl : PageControllerService,
+    private pageData : PageDataStorageService,
   ) { }
 
   ngOnInit() {
-    
-    this.foodtruckList = this.serverConnecter.getFoodtruckData();
+    this.pageData.tabHome.foodtruckListCtrl.getFoodtruckList();
   }
   get truckType(){
     return TruckType.truck;
   }
 
+  get foodtruckList() : FoodtruckData[]{
+    return this.pageData.tabHome.foodtruckListCtrl.foodtruckList;
+  }
+
+
+  foodtruckClicked(index: number){
+    this.pageCtrl.routingHome(this.foodtruckList[index]);
+  }
 }

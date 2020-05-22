@@ -1,10 +1,6 @@
 
-  <div *ngIf="isEmpty()" (click)="gotoFoodtruckInfo(11)"> 주문한 목록이 없어요.... </div>
-  <ion-list>
-    <ion-item *ngFor="let orderdata of orderList; let i = index">
-      <!-- <waiting-order-cardview orderIndex={{i}}></waiting-order-cardview> -->
-
-      <!-- <ion-label>{{orderdata.foodtruckinfo.name}}</ion-label> -->
-      <component-order-cardview orderType="{{orderType}}" orderIndex="{{i}}"></component-order-cardview>
-    </ion-item>
-  </ion-list>
+<div *ngIf="isEmpty()" (click)="gotoFoodtruckInfo(11)"> 주문한 목록이 없어요.... </div>
+<ion-list>
+    <component-order-cardview *ngFor="let orderdata of orderList; let i = index"
+      orderType="{{orderType}}" orderIndex="{{i}}"></component-order-cardview>
+</ion-list>

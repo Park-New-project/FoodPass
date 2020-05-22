@@ -1,27 +1,23 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- <ion-back-button defaultHref="/tabs/home"></ion-back-button> -->
-      <ion-button (click)="gotoHome()">
-        <!-- <ion-icon slot="icon-only" name="trash" ></ion-icon> -->
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+      <!-- <ion-button (click)="gotoHome()">
+        <ion-icon slot="icon-only" name="trash" ></ion-icon>
+      </ion-button> -->
     </ion-buttons>
-    <ion-title>{{name}}foodtruck-info</ion-title>
+    <ion-title class="ion-text-center">{{foodtruckData.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 
 <ion-content>
-
-routing : {{foodtruckId}}
-   
     <!-- {{foodtruck_id}}{{foodtruck_name}}{{foodtruck_inform}} {{foodtruck_grade}}-->
 <ion-card>
   <ion-card-header>
-      <img src="../assets/icon/foodtruck.png" alt="ion" >
-    <ion-card-title>간식 트럭</ion-card-title>
+      <img src={{foodtruckData.src}} alt="ion" >
+    <ion-card-title>{{foodtruckData.name}}</ion-card-title>
     <ion-card-subtitle>도넛/와플</ion-card-subtitle>
 
   </ion-card-header>
@@ -35,10 +31,10 @@ routing : {{foodtruckId}}
 
  <ion-grid no-padding>
    <ion-row no-padding>
-    <ion-col no padding col-2 *ngFor="let menu of menuList" class="foodtruck-info-cards">
+    <ion-col no padding col-2 *ngFor="let menu of menuList; let i = index" class="foodtruck-info-cards">
         <app-menu-list id="{{menu.menuID}}" name="{{menu.menuName}}" inform="{{menu.menuInform}}"
       price="{{menu.price}}" menuImage="{{menu.src}}"
-      routerLink="menu/{{menu.id}}">
+      (click)="menuClicked(i)">
       
       </app-menu-list> 
       

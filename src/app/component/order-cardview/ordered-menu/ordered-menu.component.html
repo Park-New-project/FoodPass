@@ -1,18 +1,23 @@
 
 <ion-item>
-  <div class="width100">
+  <div class="item-inner">
     <div class="menu-title">
-      <ion-label class="menu-view">{{menuInfo.name}}</ion-label>
+      <ion-label class="menu-view">{{menuInfo.menuName}}</ion-label>
       
       <ion-note class="option-view">{{optionInfo.name}}</ion-note>
     </div>
 
-    <div class="ion-float-right">
-      <ion-icon class="icon-button" button name="add-outline" (click)="ctrlAmount(true)"></ion-icon>
+    <div class="menu-info">
+      <ion-icon *ngIf="isBasket" class="icon-button" 
+      name="add-outline" (click)="ctrlAmount(true)"></ion-icon>
+
       <ion-label class="amount-view">
         {{orderedMenuInfo.amount}}개
       </ion-label>
-      <ion-icon class="icon-button" button name="remove-outline" (click)="ctrlAmount(false)"></ion-icon>
+
+      <ion-icon *ngIf="isBasket" class="icon-button" 
+      name="remove-outline" (click)="ctrlAmount(false)"></ion-icon>
+
       <ion-label class="price-view">{{price}}</ion-label>
     </div>
   </div>

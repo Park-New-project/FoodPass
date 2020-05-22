@@ -1,3 +1,4 @@
+
 export class CheckValue{
     protected checked: boolean;
     protected indeterminated: boolean;
@@ -7,6 +8,7 @@ export class CheckValue{
         this.checked = true;
         this.indeterminated = false;
         this.parent = parent;
+        this.valueChanged();
     }
 
     get checkValue(){
@@ -32,7 +34,6 @@ export class CheckValue{
         else{
             this.value = !this.value;
         }
-        
     }
     
     protected valueChanged(){

@@ -1,0 +1,16 @@
+.endfloat{
+    float: right;
+    margin-right: 20px;
+}
+
+ion-checkbox{
+    margin: 0px 5px;
+    --size: 20px
+}
+
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: large;
+}

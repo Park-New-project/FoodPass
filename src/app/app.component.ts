@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Router } from '@angular/router';
+import { UserConfigService } from './services/user-config/user-config.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private router : Router
+    private config : UserConfigService,
   ) {
     this.initializeApp();
   }
@@ -25,8 +25,16 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       console.log("app start");
+
+      this.loadConfig();
     });
 
     // this.router.navigateByUrl("/tabs/order");
+  }
+
+  loadConfig(){
+    this.config.init();
+
+    console.log("loading config");
   }
 }

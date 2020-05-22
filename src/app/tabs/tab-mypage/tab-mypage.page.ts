@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserConfigService } from 'src/app/services/user-config/user-config.service';
 
 @Component({
   selector: 'app-tab-mypage',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabMypagePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private config : UserConfigService,
+  ) { }
 
   ngOnInit() {
   }
 
+
+  get admin() : boolean{
+    return this.config.foodtruckOwner;
+  }
+
+  set admin(b : boolean){
+    this.config.foodtruckOwner = b;
+  }
 }

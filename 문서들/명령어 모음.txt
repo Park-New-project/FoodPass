@@ -21,8 +21,7 @@ ionic capacitor run android : 안드에서 실행
  - 안드스튜디오를 열어준다. 환경 변수 설정해야 할 수도 있음
  - 에러나면 에러 보고 필요한 환경변수 먼저 설정하기
 
-5. 이후 안드실행 아마
-ionic capacitor sync  - 이걸 해야 바뀐게 반영이 되는듯?
+5. 이후 안드실행
 ionic capacitor run android
 
 실행중 중지 : ctrl - c

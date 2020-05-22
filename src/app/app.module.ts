@@ -10,12 +10,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 import { IonicGestureConfig } from 'src/IonicGestureConfig';
+import { SharedComponentModule } from './component/shared-component.module';
+import { AppDataModule } from './services/app-data/app-data.module';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicStorageModule.forRoot(),
+      SharedComponentModule,
+      AppDataModule,
+    ],
   providers: [
     StatusBar,
     SplashScreen,

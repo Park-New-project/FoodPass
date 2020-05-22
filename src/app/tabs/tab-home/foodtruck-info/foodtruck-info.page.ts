@@ -1,63 +1,58 @@
-import { Component, OnInit, AfterContentInit, DoCheck } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { TabHomeControllerService } from 'src/app/services/tab-home-controller/tab-home-controller.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ServerConnecterService } from 'src/app/services/server-connecter/server-connecter.service';
-import { MenuData } from 'src/app/data/menu';
-import {FoodtruckData} from'src/app/data/foodtruck';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PageControllerService } from 'src/app/services/app-data/page-controller/page-controller.service';
+import { PageDataStorageService } from 'src/app/services/app-data/page-data-storage/page-data-storage.service';
 @Component({
   selector: 'app-foodtruck-info',
   templateUrl: './foodtruck-info.page.html',
 
   styleUrls: ['./foodtruck-info.page.scss'],
 })
-export class FoodtruckInfoPage implements OnInit, AfterContentInit  {
-  foodtruckId: number;
+export class FoodtruckInfoPage implements OnInit  {
+  // foodtruckId: number;
   foodtruckName:string;
   foodtruckImage:string;
+
   //routedata:FoodtruckData[];
-  menuList: MenuData[];
 
   constructor(
-    private pageCtrl : TabHomeControllerService,
-    private serverConnecter : ServerConnecterService,
     private route : ActivatedRoute,
-    private router : Router
+    private pageCtrl : PageControllerService,
+    private pageData : PageDataStorageService,
   ) { }
 
   ngOnInit() {
-    this.foodtruckId = Number(this.route.snapshot.paramMap.get("id"));
-    //this.foodtruckImage=FoodtruckData.src;
-    this.menuList = this.serverConnecter.getMenuData(this.foodtruckId);
-
-    this.comeByWebAddress();
+    this.getBaseData();
+    this.pageData.tabHome.menuListCtrl.getMenuList();
   }
 
-  ngAfterContentInit(){
-    if(isNaN(this.foodtruckId)){
-      this.router.navigateByUrl('/tabs/home');
+  get foodtruckData(){
+    return this.pageData.tabHome.routeDataCtrl.currentFoodtruck;
+  }
+
+  get menuList(){
+    return this.pageData.tabHome.menuListCtrl.menuList;
+  }
+
+  getBaseData(){
+    //여기에서 foodtruckinfo 가 있는지 보고
+    // 없으면 getRoutingData로 foodtruckinfo를 웹에서 받아오기
+    // 있으면 생략
+    if(this.foodtruckData == undefined){
+      this.getRoutingData();
     }
   }
 
-  comeByWebAddress(){
-    //foodtruckinfo 를 원래는 위에서 받아오지만
-    //만약 웹으로 받아왔다면 여기에는 없는 자료, 그걸로 판별
-
-    //foodtruckinfo를 서버에서 다운로드 후 history에 루트주소부터 넣기
-    
+  getRoutingData(){
+    let foodtruckId = Number(this.route.snapshot.paramMap.get("id"));
+    if(isNaN(foodtruckId)){
+      this.pageCtrl.routingHome();
+    }
+    this.pageData.tabHome.routeDataCtrl.getFoodtruckData(foodtruckId);
   }
 
-  get data(){
-    return this.pageCtrl.test;
+  menuClicked(index: number){
+    this.pageCtrl.routingHome(this.foodtruckData, this.menuList[index]);
   }
 
-  //버튼에 라우팅하기
-
-  gotoOrder(){
-    this.router.navigateByUrl("/tabs/order");
-  }
-
-  gotoHome(){
-    this.router.navigateByUrl("/tabs/home");
-  }
 }

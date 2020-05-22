@@ -1,0 +1,7 @@
+<div>
+    <ion-item lines="none">
+        <ion-icon *ngIf="isOwner" name="create-outline"></ion-icon>
+        <ion-input *ngIf="isOwner" type="text" [(ngModel)]="value"></ion-input>
+        <ion-label *ngIf="!isOwner">{{value}}</ion-label>
+    </ion-item>
+</div>
