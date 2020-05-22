@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-pick-menu-option',
-  templateUrl: './pick-menu-option.component.html',
-  styleUrls: ['./pick-menu-option.component.scss'],
+  templateUrl: './option-list.component.html',
+  styleUrls: ['./option-list.component.scss'],
 })
 export class PickMenuOptionComponent implements OnInit {
 
