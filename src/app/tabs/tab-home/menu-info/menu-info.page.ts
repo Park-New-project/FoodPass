@@ -16,6 +16,7 @@ import { TabHomeOptionListCtrl } from 'src/app/services/app-data/page-data-stora
 export class MenuInfoPage implements OnInit {
   amount: number = 1;
   price: number = 0;
+  isCheckedValue: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +27,11 @@ export class MenuInfoPage implements OnInit {
   ngOnInit() {
     this.getBaseData();
     this.optionListCtrl.getOptionList(this.foodtruckData.id, this.menuData.menuID);
+  }
+
+  
+  pickHandler(event){
+    this.isCheckedValue = event.target.value;
   }
 
   get routeCtrl(): TabHomeRouteDataCtrl{

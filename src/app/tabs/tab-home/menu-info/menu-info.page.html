@@ -19,13 +19,15 @@
     </ion-header>
     
     <ion-content ng-controller="MyCtrl as ctrl">
-     
-  
           <ion-list class="row header">
-            <ion-label>옵션명    추가가격   개수 </ion-label>
-            <ion-item class="option-list" *ngFor="let option of optionList; let i = index">
-            <app-pick-menu-option id="{{option.id}}" name="{{option.name}}" extraPrice="{{option.extraPrice}}"></app-pick-menu-option>
-            </ion-item>
+              <ion-radio-group (ionChange)="pickHandler($event)">
+                <ion-list-header>
+                  <ion-label>옵션명    추가가격   개수 {{isCheckedValue}} </ion-label>
+                </ion-list-header>
+                <ion-item class="option-list" *ngFor="let option of optionList; let i = index">
+                  <app-pick-menu-option id="{{option.id}}" name="{{option.name}}" extraPrice="{{option.extraPrice}}"></app-pick-menu-option>
+                </ion-item>
+            </ion-radio-group>
           </ion-list>
 
           <ion-button class="button-to-basket"> {{price}} 원 구매하기

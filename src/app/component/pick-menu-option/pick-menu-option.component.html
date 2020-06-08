@@ -2,8 +2,10 @@
 <ion-app>
 <ion-item>
   <div class="item-inner">
+    
     <div class="option-title">
-      <ion-label class="option-view">{{name}} {{id}}</ion-label>
+      <ion-radio slot="start" color="tertiary" value="{{name}} {{id}}"></ion-radio>
+      <ion-label class="option-view">{{name}} {{id}} </ion-label>
     </div>
 
     <div class="option-info">
@@ -14,7 +16,7 @@
         {{amount}}개
       </ion-label>
 
-      <ion-icon  class="icon-button" 
+      <ion-icon class="icon-button" 
       name="remove-outline" (click)="ctrlAmount(false)"></ion-icon>
 
       <ion-label class="extraPrice-view"> +{{extraPrice}}원</ion-label>
