@@ -148,21 +148,35 @@ getInputAddress(){
     //     alert();
     //   }
 
-    // });       
-    
-    geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+    // });   
+       
+    // geocoder.addressSearch(data_adp, (result, status) =>{
 
-      // 정상적으로 검색이 완료됐으면 
-       if (status === kakao.maps.services.Status.OK) {
+    //   // 정상적으로 검색이 완료됐으면 
+    //    if (status === kakao.maps.services.Status.OK) {
   
-          this.position = new kakao.maps.LatLng(result[0].y, result[0].x);
-  
-          // 결과값으로 받은 위치를 마커로 표시합니다
-          this.displayMarker( this.position );
-       }
+    //       this.position = new kakao.maps.LatLng(result[0].y, result[0].x);
+     
+    //       alert("OK");
+    //       // 결과값으로 받은 위치를 마커로 표시합니다
+    //       this.displayMarker( this.position );
+    //    }else{
+   
+    //     alert("NO");
+    //    }
+    //   });
+       var ps = new kakao.maps.services.Places(); 
+
+    // 키워드로 장소를 검색합니다
+    ps.keywordSearch("",  (data, status, pagination) => {
+        if (status === kakao.maps.services.Status.OK) {
+            this.position = new kakao.maps.LatLng(data[0].y, data[0].x);
+            this.displayMarker(this.position);
+        }else{
+          alert("검색 결과가 없습니다!");
+        }
       });
-
-  }
+    }
 
   dismissCancel(){
     // this.pageCtrl.setLocation(this.dataLocation);
