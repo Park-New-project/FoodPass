@@ -17,13 +17,14 @@ export class MapPage implements OnInit, AfterViewInit {
   map: any;
   marker: any;
 
-  position: any;          // 지정 위치 데이터 : LatLng
-  coordinates:any;        // 현재 위치 관련 데이터 : LatLng
+  position: any; 
+  coordinates:any; 
   
-  dataLocation: LocationData;   // 불러온 이전 위치 : LocationData
-  newLocation: LocationData;    // 새로 지정한 위치 : LocationData
+  dataLocation: LocationData; 
+  newLocation: LocationData; 
 
   inputData: string;
+  outputData: string;
 
 
 
@@ -56,12 +57,9 @@ getInputAddress(){
   //   return this.pageData.tabHome.locationCtrl;
   // }
 
-  get getLatitude(){
-    return " lat: "+this.newLocation.lat;
-  }
-
-  get getLongitude(){
-    return " lng: "+this.newLocation.lng;
+  get getoutputData(){
+    // lat: "+this.newLocation.lat+" lng: "+this.newLocation.lng
+    return this.outputData;
   }
 
   async initPosition() {
@@ -102,8 +100,11 @@ getInputAddress(){
       var latlng = this.marker.getPosition();
       this.newLocation.lat = latlng.getLat();
       this.newLocation.lng =latlng.getLng();
+      this.searchLatlng();
     });
-    this.map.setCenter(locPosition);  
+    this.map.setCenter(locPosition); 
+    this.searchLatlng(); 
+
   }
 
   // displayMarker(locPosition) {
@@ -128,24 +129,19 @@ getInputAddress(){
   }
 
 
-  
-  searchKeyWord(){
+  searchLatlng(){
     var geocoder = new kakao.maps.services.Geocoder();
-    // geocoder.coord2Address(this.newLocation.lng, this.newLocation.lat, (result, status)=>{
-    //   if (status === kakao.maps.services.Status.OK) {
-    //     var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-    //     detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-        
-    //     var content = '<div class="bAddr">' +
-    //                     '<span class="title">법정동 주소정보</span>' + 
-    //                     detailAddr + 
-    //                 '</div>';
-    //     console.log(content);
-    //     alert();
-    //   }
+    geocoder.coord2Address(this.newLocation.lng, this.newLocation.lat, (result, status)=>{
+      if (status === kakao.maps.services.Status.OK) {
+        // var detailAddr = !!result[0].road_address ? '도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+        // detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+        this.outputData = result[0].address.address_name ;
+        console.log(this.outputData);
+      }
 
-    // });   
-       
+    });   
+  }
+  searchKeyWord(){
     // geocoder.addressSearch(data_adp, (result, status) =>{
 
     //   // 정상적으로 검색이 완료됐으면 
