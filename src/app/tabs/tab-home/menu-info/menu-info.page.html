@@ -30,7 +30,7 @@
             </ion-radio-group>
           </ion-list>
 
-          <ion-button expand="full" class="button-to-basket"> {{menuData.menuName}} {{isCheckedValue}}  구매하기
+          <ion-button expand="full" class="button-to-basket" (click)="orderToBasket()"> {{menuData.menuName}} {{isCheckedValue}}  구매하기
           </ion-button>
     </ion-content>
 </ion-content>
