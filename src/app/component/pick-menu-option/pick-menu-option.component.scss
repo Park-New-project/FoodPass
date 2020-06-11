@@ -1,21 +1,32 @@
 
+ion-item{
+    height: fit-content;
+    --inner-padding-end: 0px;
+    --padding-start:0px
+}
 .item-inner{
    display: block; 
    width: 100%;
 
    .option-title{
-    display: flex;
+    display: inline-flex;
     align-items: center;
     padding: 0px 5px;
+        
+        .option-radio{
+        margin: 5px! important;
+        }
 
         .option-view{
             display: inline-block;
-            font-size: large;
+            font-size: initial;
         }
     }
 
     .option-info{
         float: right;
+        padding: 20px 20px;
+
         .icon-button{
             display: inline-block;
             margin: 5px 10px;
