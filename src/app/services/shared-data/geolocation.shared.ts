@@ -10,17 +10,30 @@ const geoOptions = {
   };
 
 export class SharedGeolocation {
+    
+    newLocation: LocationData;
     currentLocation: LocationData;
     isMyLocation: boolean = false;
   
     locationWatcher: Subscription = null;
 
     constructor(private geo: Geolocation){
-        this.currentLocation = { lat: 36.3504563333333, lng:127.38481833333333 };
+        this.currentLocation ={lat: 37.566761, lng:126.9786527}; 
+        this.newLocation =this.currentLocation;
     }
 
     init() : Promise<Coordinates>{
         return this.getLocation();
+    }
+    getNewLocation(): LocationData{
+        return this.newLocation;
+    }
+    setNewLocation(newLocation){
+        this.newLocation = newLocation;
+    }
+
+    setCurrentLocation(){
+        this.newLocation =this.currentLocation;
     }
     
     getLocation() : Promise<Coordinates> {

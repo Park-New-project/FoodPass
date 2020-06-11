@@ -2,8 +2,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationData } from 'src/app/data/location';
-import { PageDataStorageService } from 'src/app/services/app-data/page-data-storage/page-data-storage.service';
-import { TabHomeLocationCtrl } from 'src/app/services/app-data/page-data-storage/tab-home-data/location.ctrl';
 import { SharedDataService } from 'src/app/services/shared-data/shared-data.service';
 
 // Kakao Map API
@@ -25,18 +23,17 @@ export class MapPage implements OnInit, AfterViewInit {
   dataLocation: LocationData;   // 불러온 이전 위치 : LocationData
   newLocation: LocationData;    // 새로 지정한 위치 : LocationData
 
-  inputAddress: string;
+  inputData: string;
 
 
 
   constructor(
     private geo: Geolocation,
     private modalCtrl : ModalController,
-    private pageData: PageDataStorageService,
     private sharedData : SharedDataService,
   ) {
 
-    this.dataLocation = this.sharedData.geolocation.currentLocation;
+    this.dataLocation = this.sharedData.geolocation.getNewLocation();
     this.newLocation = {lat: this.dataLocation.lat, lng:this.dataLocation.lng};
   }
 
@@ -52,7 +49,7 @@ export class MapPage implements OnInit, AfterViewInit {
   }
 
 getInputAddress(){
-  alert(this.inputAddress);
+  alert(this.inputData);
 }
 
   // get pageCtrl() : TabHomeLocationCtrl {
@@ -125,15 +122,14 @@ getInputAddress(){
   // }
   
   getCurrentPosition(){
-    this.newLocation.lat = this.coordinates.coords.latitude;
-    this.newLocation.lng = this.coordinates.coords.longitude;
-    this.position = new kakao.maps.LatLng(this.newLocation.lat, this.newLocation.lng);
-    this.displayMarker(this.position);
+    this.sharedData.geolocation.setCurrentLocation();
+    this.newLocation = this.sharedData.geolocation.currentLocation;
+            this.displayMarker(this.position);
   }
 
 
   
-  alertAddress(){
+  searchKeyWord(){
     var geocoder = new kakao.maps.services.Geocoder();
     // geocoder.coord2Address(this.newLocation.lng, this.newLocation.lat, (result, status)=>{
     //   if (status === kakao.maps.services.Status.OK) {
@@ -168,9 +164,10 @@ getInputAddress(){
        var ps = new kakao.maps.services.Places(); 
 
     // 키워드로 장소를 검색합니다
-    ps.keywordSearch("",  (data, status, pagination) => {
+    ps.keywordSearch(this.inputData,  (data, status, pagination) => {
         if (status === kakao.maps.services.Status.OK) {
             this.position = new kakao.maps.LatLng(data[0].y, data[0].x);
+            this.newLocation = {lat: data[0].y, lng:data[0].x};
             this.displayMarker(this.position);
         }else{
           alert("검색 결과가 없습니다!");
@@ -185,7 +182,7 @@ getInputAddress(){
   }
 
   dismissOK(){
-    // this.pageCtrl.setLocation(this.newLocation);
+    this.sharedData.geolocation.setNewLocation(this.newLocation);
     //alert("dismissOK");
     this.modalCtrl.dismiss();
   }

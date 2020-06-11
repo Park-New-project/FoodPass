@@ -4,7 +4,8 @@ export class TabHomeLocationCtrl {
     locationData: LocationData;
   
     constructor() {
-      this.locationData ={lat: 37.566761, lng:126.9786527};
+      this.locationData ={ lat: 36.3504563, lng:127.3848183 };
+    
     }
     setLocation(location){
       this.locationData = location;
