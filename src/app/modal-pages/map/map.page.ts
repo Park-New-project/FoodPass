@@ -125,7 +125,9 @@ getInputAddress(){
   getCurrentPosition(){
     this.sharedData.geolocation.setCurrentLocation();
     this.newLocation = this.sharedData.geolocation.currentLocation;
-            this.displayMarker(this.position);
+    
+    //this.position = new kakao.maps.LatLng(this.newLocation.lat, this.newLocation.lng);
+    this.displayMarker(this.position);
   }
 
 
