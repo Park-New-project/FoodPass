@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LocationData } from 'src/app/data/location';
@@ -14,65 +14,65 @@ declare var kakao;
   styleUrls: ['./map.page.scss'],
 })
 
-export class MapPage implements OnInit {
+export class MapPage implements OnInit, AfterViewInit {
   map: any;
   marker: any;
 
-  position: any;
+  position: any;          // 지정 위치 데이터 : LatLng
+  coordinates:any;        // 현재 위치 관련 데이터 : LatLng
+  
+  dataLocation: LocationData;   // 불러온 이전 위치 : LocationData
+  newLocation: LocationData;    // 새로 지정한 위치 : LocationData
+
   inputAddress: string;
 
-  dataLocation: LocationData;
-  newLocation: LocationData;
-  nowLocation: LocationData;
+
 
   constructor(
     private geo: Geolocation,
     private modalCtrl : ModalController,
     private pageData: PageDataStorageService,
-  ) { 
-    this.dataLocation = this.pageCtrl.getLocation();
-    this.newLocation = {lat: this.dataLocation.lat, lng:this.dataLocation.lng};
-    this.nowLocation ={lat: this.dataLocation.lat, lng:this.dataLocation.lng};
-  }
+  ) {
 
-  get pageCtrl() : TabHomeLocationCtrl {
-    return this.pageData.tabHome.locationCtrl;
+    this.dataLocation = this.locationCtrl.locationData;
+    this.newLocation = {lat: this.dataLocation.lat, lng:this.dataLocation.lng};
   }
 
   ngOnInit() {
-    this.getCurrentPosition();
-  }
-getInputAddress(){
-  alert(this.inputAddress);
-}
-  displayMarker(locPosition) {
-    this.marker.setPosition(locPosition);
-    kakao.maps.event.addListener(this.marker, 'dragend', () => {
-      var latlng = this.marker.getPosition();
-      this.newLocation.lat = latlng.getLat();
-      this.newLocation.lng =latlng.getLng();
-    });
-    this.map.setCenter(locPosition);  
-  }
-  
-  getNowLocation(){
-    this.newLocation.lat = this.nowLocation.lat;
-    this.newLocation.lng =this.nowLocation.lng;
-    this.position = new kakao.maps.LatLng(this.newLocation.lat, this.newLocation.lng);
-    this.displayMarker(this.position);
+    setTimeout(() => {
+      this.makeMap();
+    }, 150);
   }
 
-  async getCurrentPosition() {
+  ngAfterViewInit(){
+  }
+  get locationCtrl(): TabHomeLocationCtrl{
+    return this.pageData.tabHome.locationCtrl;
+  }
+
+  get getLatitude(){
+    return " lat: "+this.newLocation.lat;
+  }
+
+  get getLongitude(){
+    return " lng: "+this.newLocation.lng;
+  }
+
+  async initPosition() {
     var geoOptions = {
       enableHighAccuracy: true,
       timeout: 5000,
       maximumAge: 0
     };
-    const coordinates = await this.geo.getCurrentPosition(geoOptions);
-    this.nowLocation.lat = coordinates.coords.latitude;
-    this.nowLocation.lng = coordinates.coords.longitude;
+    try {
+      this.coordinates = await this.geo.getCurrentPosition(geoOptions);
+      this.getCurrentPosition();
+
+    }catch{
+    }
     this.makeMap();
   }
+
   makeMap(){
     this.position = new kakao.maps.LatLng(this.dataLocation.lat, this.dataLocation.lng);
 
@@ -87,25 +87,64 @@ getInputAddress(){
       position: this.position
   }); 
     this.displayMarker(this.position);
+    this.map.relayout();
   }
 
-  get getLatitude(){
-    return " lat: "+this.newLocation.lat;
+  displayMarker(locPosition) {
+    this.marker.setPosition(locPosition);
+    kakao.maps.event.addListener(this.marker, 'dragend', () => {
+      var latlng = this.marker.getPosition();
+      this.newLocation.lat = latlng.getLat();
+      this.newLocation.lng =latlng.getLng();
+    });
+    this.map.setCenter(locPosition);  
+  }
+  getCurrentPosition(){
+    this.newLocation.lat = this.coordinates.coords.latitude;
+    this.newLocation.lng = this.coordinates.coords.longitude;
+    this.position = new kakao.maps.LatLng(this.newLocation.lat, this.newLocation.lng);
+    this.displayMarker(this.position);
   }
 
-  get getLongitude(){
-    return " lng: "+this.newLocation.lng;
+
+  
+  getInputAddress(){
+    var geocoder = new kakao.maps.services.Geocoder();
+    // geocoder.coord2Address(this.newLocation.lng, this.newLocation.lat, (result, status)=>{
+    //   if (status === kakao.maps.services.Status.OK) {
+    //     var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+    //     detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+        
+    //     var content = '<div class="bAddr">' +
+    //                     '<span class="title">법정동 주소정보</span>' + 
+    //                     detailAddr + 
+    //                 '</div>';
+    //     console.log(content);
+    //     alert();
+    //   }
+
+    // });       
+    
+    geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+
+      // 정상적으로 검색이 완료됐으면 
+       if (status === kakao.maps.services.Status.OK) {
+  
+          this.position = new kakao.maps.LatLng(result[0].y, result[0].x);
+  
+          // 결과값으로 받은 위치를 마커로 표시합니다
+          this.displayMarker(this.position);
+       }
+      });
+
   }
 
   dismissCancel(){
-    this.pageCtrl.setLocation(this.dataLocation);
-    //alert("dismissCancel");
     this.modalCtrl.dismiss();
   }
 
   dismissOK(){
-    this.pageCtrl.setLocation(this.newLocation);
-    //alert("dismissOK");
+    this.locationCtrl.setLocation(this.newLocation);
     this.modalCtrl.dismiss();
   }
 }
