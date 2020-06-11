@@ -16,7 +16,7 @@ import { TabHomeOptionListCtrl } from 'src/app/services/app-data/page-data-stora
 export class MenuInfoPage implements OnInit {
   amount: number = 1;
   price: number = 0;
-  isCheckedValue: string;
+  checkedValue: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +31,7 @@ export class MenuInfoPage implements OnInit {
 
   
   pickHandler(event){
-    this.isCheckedValue = event.target.value;
+    this.checkedValue = event.target.value;
   }
 
   get routeCtrl(): TabHomeRouteDataCtrl{
