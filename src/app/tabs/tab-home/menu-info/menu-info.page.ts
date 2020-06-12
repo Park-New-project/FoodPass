@@ -85,7 +85,7 @@ export class MenuInfoPage implements OnInit {
   }
   orderToBasket(){
     this.basketCtrl.push(this.foodtruckData, this.menuData, this.optionList[0], this.amount);
-    this.pageCtrl.routingHome();
+    this.pageCtrl.routingHome(this.foodtruckData);
   }
 
 
