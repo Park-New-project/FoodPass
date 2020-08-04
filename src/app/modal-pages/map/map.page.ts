@@ -19,22 +19,22 @@ export class MapPage implements OnInit, AfterViewInit {
   map: any;
   marker: any;
 
-  position: any;          // 지정 위치 데이터 : LatLng
-  coordinates:any;        // 현재 위치 관련 데이터 : LatLng
+  position: any; 
+  coordinates:any; 
   
-  dataLocation: LocationData;   // 불러온 이전 위치 : LocationData
-  newLocation: LocationData;    // 새로 지정한 위치 : LocationData
+  dataLocation: LocationData; 
+  newLocation: LocationData; 
 
-  inputAddress: string;
+  inputData: string;
+  outputData: string;
 
   constructor(
     private geo: Geolocation,
     private modalCtrl : ModalController,
-    private pageData: PageDataStorageService,
     private sharedData : SharedDataService,
   ) {
 
-    this.dataLocation = this.sharedData.geolocation.currentLocation;
+    this.dataLocation = this.sharedData.geolocation.getNewLocation();
     this.newLocation = {lat: this.dataLocation.lat, lng:this.dataLocation.lng};
   }
 
@@ -50,19 +50,16 @@ export class MapPage implements OnInit, AfterViewInit {
   }
 
 getInputAddress(){
-  alert(this.inputAddress);
+  alert(this.inputData);
 }
 
   // get pageCtrl() : TabHomeLocationCtrl {
   //   return this.pageData.tabHome.locationCtrl;
   // }
 
-  get getLatitude(){
-    return " lat: "+this.newLocation.lat;
-  }
-
-  get getLongitude(){
-    return " lng: "+this.newLocation.lng;
+  get getoutputData(){
+    // lat: "+this.newLocation.lat+" lng: "+this.newLocation.lng
+    return this.outputData;
   }
 
   async initPosition() {
@@ -103,8 +100,11 @@ getInputAddress(){
       var latlng = this.marker.getPosition();
       this.newLocation.lat = latlng.getLat();
       this.newLocation.lng =latlng.getLng();
+      this.searchLatlng();
     });
-    this.map.setCenter(locPosition);  
+    this.map.setCenter(locPosition); 
+    this.searchLatlng(); 
+
   }
 
   // displayMarker(locPosition) {
@@ -123,44 +123,55 @@ getInputAddress(){
   // }
   
   getCurrentPosition(){
-    this.newLocation.lat = this.coordinates.coords.latitude;
-    this.newLocation.lng = this.coordinates.coords.longitude;
-    this.position = new kakao.maps.LatLng(this.newLocation.lat, this.newLocation.lng);
+    this.sharedData.geolocation.setCurrentLocation();
+    this.newLocation = this.sharedData.geolocation.currentLocation;
+    
+    //this.position = new kakao.maps.LatLng(this.newLocation.lat, this.newLocation.lng);
     this.displayMarker(this.position);
   }
 
 
-  
-  alertAddress(){
+  searchLatlng(){
     var geocoder = new kakao.maps.services.Geocoder();
-    // geocoder.coord2Address(this.newLocation.lng, this.newLocation.lat, (result, status)=>{
-    //   if (status === kakao.maps.services.Status.OK) {
-    //     var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-    //     detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-        
-    //     var content = '<div class="bAddr">' +
-    //                     '<span class="title">법정동 주소정보</span>' + 
-    //                     detailAddr + 
-    //                 '</div>';
-    //     console.log(content);
-    //     alert();
-    //   }
+    geocoder.coord2Address(this.newLocation.lng, this.newLocation.lat, (result, status)=>{
+      if (status === kakao.maps.services.Status.OK) {
+        // var detailAddr = !!result[0].road_address ? '도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+        // detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+        this.outputData = result[0].address.address_name ;
+        console.log(this.outputData);
+      }
 
-    // });       
-    
-    geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-
-      // 정상적으로 검색이 완료됐으면 
-       if (status === kakao.maps.services.Status.OK) {
-  
-          this.position = new kakao.maps.LatLng(result[0].y, result[0].x);
-  
-          // 결과값으로 받은 위치를 마커로 표시합니다
-          this.displayMarker( this.position );
-       }
-      });
-
+    });   
   }
+  searchKeyWord(){
+    // geocoder.addressSearch(data_adp, (result, status) =>{
+
+    //   // 정상적으로 검색이 완료됐으면 
+    //    if (status === kakao.maps.services.Status.OK) {
+  
+    //       this.position = new kakao.maps.LatLng(result[0].y, result[0].x);
+     
+    //       alert("OK");
+    //       // 결과값으로 받은 위치를 마커로 표시합니다
+    //       this.displayMarker( this.position );
+    //    }else{
+   
+    //     alert("NO");
+    //    }
+    //   });
+       var ps = new kakao.maps.services.Places(); 
+
+    // 키워드로 장소를 검색합니다
+    ps.keywordSearch(this.inputData,  (data, status, pagination) => {
+        if (status === kakao.maps.services.Status.OK) {
+            this.position = new kakao.maps.LatLng(data[0].y, data[0].x);
+            this.newLocation = {lat: data[0].y, lng:data[0].x};
+            this.displayMarker(this.position);
+        }else{
+          alert("검색 결과가 없습니다!");
+        }
+      });
+    }
 
   dismissCancel(){
     // this.pageCtrl.setLocation(this.dataLocation);
@@ -169,7 +180,7 @@ getInputAddress(){
   }
 
   dismissOK(){
-    // this.pageCtrl.setLocation(this.newLocation);
+    this.sharedData.geolocation.setNewLocation(this.newLocation);
     //alert("dismissOK");
     this.modalCtrl.dismiss();
   }

@@ -10,6 +10,8 @@ const geoOptions = {
 };
 
 export class SharedGeolocation {
+    
+    newLocation: LocationData;
     currentLocation: LocationData;
     isMyLocation: boolean = false;
   
@@ -22,6 +24,16 @@ export class SharedGeolocation {
 
     init() : Promise<LocationData>{
         return this.getLocation();
+    }
+    getNewLocation(): LocationData{
+        return this.newLocation;
+    }
+    setNewLocation(newLocation){
+        this.newLocation = newLocation;
+    }
+
+    setCurrentLocation(){
+        this.newLocation =this.currentLocation;
     }
     
     getLocation() : Promise<LocationData> {
