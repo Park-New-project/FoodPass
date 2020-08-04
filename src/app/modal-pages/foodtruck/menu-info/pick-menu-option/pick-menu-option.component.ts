@@ -9,6 +9,7 @@ export class PickMenuOptionComponent implements OnInit {
   @Input() id:number;
   @Input() name:string;
   @Input() extraPrice:number;
+  isCheckedValue: string;
 
   constructor() { 
   }
